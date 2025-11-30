@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroML - Sun'iy Intellekt Asosida Suv Boshqaruvi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --gradient-5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --text-dark: #1a202c;
+            --text-light: #ffffff;
+            --bg-light: #f7fafc;
+            --shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-hero);
+            color: var(--text-light);
+            padding: 120px 2rem 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><circle cx="100" cy="100" r="50" fill="rgba(255,255,255,0.1)"/><circle cx="1000" cy="400" r="80" fill="rgba(255,255,255,0.1)"/><circle cx="600" cy="500" r="60" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            animation: fadeInUp 1s ease 0.4s backwards;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--gradient-1);
+            border-radius: 2px;
+        }
+
+        /* Problem & Solution Section */
+        #problem-solution {
+            background: var(--bg-light);
+        }
+
+        .problem-solution-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .card ul li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .card ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #43e97b;
+            font-weight: bold;
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: var(--gradient-3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            margin-top: 0.5rem;
+            color: #718096;
+        }
+
+        /* Team Section */
+        #team {
+            background: var(--bg-light);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-member {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-member::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-1);
+        }
+
+        .team-member:nth-child(2)::before {
+            background: var(--gradient-2);
+        }
+
+        .team-member:nth-child(3)::before {
+            background: var(--gradient-3);
+        }
+
+        .team-member:nth-child(4)::before {
+            background: var(--gradient-4);
+        }
+
+        .team-member:nth-child(5)::before {
+            background: var(--gradient-5);
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .team-member:nth-child(2) .team-avatar {
+            background: var(--gradient-2);
+        }
+
+        .team-member:nth-child(3) .team-avatar {
+            background: var(--gradient-3);
+        }
+
+        .team-member:nth-child(4) .team-avatar {
+            background: var(--gradient-4);
+        }
+
+        .team-member:nth-child(5) .team-avatar {
+            background: var(--gradient-5);
+        }
+
+        .team-member h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-role {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .team-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            background: var(--gradient-1);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        /* Why Us Section */
+        .why-us-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .why-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .why-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+        }
+
+        .why-card:nth-child(2) .why-icon {
+            background: var(--gradient-3);
+        }
+
+        .why-card:nth-child(3) .why-icon {
+            background: var(--gradient-4);
+        }
+
+        /* Roadmap Section */
+        #roadmap {
+            background: var(--bg-light);
+        }
+
+        .roadmap-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            position: relative;
+        }
+
+        .roadmap-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            padding-left: 4rem;
+        }
+
+        .roadmap-number {
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .roadmap-item:nth-child(2) .roadmap-number {
+            background: var(--gradient-2);
+        }
+
+        .roadmap-item:nth-child(3) .roadmap-number {
+            background: var(--gradient-3);
+        }
+
+        .roadmap-item:nth-child(4) .roadmap-number {
+            background: var(--gradient-4);
+        }
+
+        .stage-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--gradient-5);
+            color: white;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        /* Technical Section */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .tech-category {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .tech-category h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tech-list {
+            list-style: none;
+        }
+
+        .tech-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tech-list li:last-child {
+            border-bottom: none;
+        }
+
+        .tech-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Architecture Diagram */
+        .architecture-diagram {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-top: 3rem;
+        }
+
+        .diagram-layer {
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .layer-1 {
+            background: var(--gradient-1);
+        }
+
+        .layer-2 {
+            background: var(--gradient-3);
+        }
+
+        .layer-3 {
+            background: var(--gradient-4);
+        }
+
+        .layer-4 {
+            background: var(--gradient-2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gradient-hero);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .problem-solution-grid,
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .why-us-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .roadmap-item {
+                padding-left: 3rem;
+            }
+
+            .roadmap-number {
+                left: -10px;
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Scroll Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">🌱 AgroML</div>
+            <ul class="nav-links">
+                <li><a href="#home">Bosh sahifa</a></li>
+                <li><a href="#problem-solution">Muammo & Yechim</a></li>
+                <li><a href="#team">Jamoa</a></li>
+                <li><a href="#why-us">Nega Biz</a></li>
+                <li><a href="#roadmap">Yo'l Xaritasi</a></li>
+                <li><a href="#technical">Texnik Yechim</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>🌱 AgroML</h1>
+            <p>Sun'iy Intellekt va Machine Learning Asosida Qishloq Xo'jaligida Suv Resurslarini Optimal Boshqarish Tizimi</p>
+            <a href="#problem-solution" class="cta-button">Batafsil Ma'lumot</a>
+        </div>
+    </section>
+
+    <!-- Problem & Solution Section -->
+    <section id="problem-solution">
+        <div class="container">
+            <h2 class="section-title">Muammo va Yechim</h2>
+            <div class="problem-solution-grid">
+                <div class="card fade-in">
+                    <div class="card-icon">⚠️</div>
+                    <h3>Muammo</h3>
+                    <p>O'zbekistonda suv resurslari tanqisligi yildan-yilga kuchayib bormoqda va bu qishloq xo'jaligiga jiddiy ta'sir ko'rsatmoqda.</p>
+                    <ul>
+                        <li><strong>Suv yetishmovchiligi:</strong> Aral dengizi fojiasi va iqlim o'zgarishi natijasida suv resurslari keskin kamaymoqda</li>
+                        <li><strong>Samarasiz sug'orish:</strong> An'anaviy sug'orish usullari suvning 40-60% ini isrof qiladi</li>
+                        <li><strong>Ma'lumot etishmasligi:</strong> Fermerlar o'simliklarning haqiqiy suv ehtiyojini bilmaydi</li>
+                        <li><strong>Qo'lda boshqarish:</strong> Sug'orish jarayonini optimallashtirish uchun zamonaviy texnologiyalar yo'q</li>
+                        <li><strong>Hosildorlik pasayishi:</strong> Noto'g'ri sug'orish hosildorlikning 30% gacha kamayishiga olib keladi</li>
+                    </ul>
+                    <p style="margin-top: 1.5rem;"><strong>Soha:</strong> Qishloq xo'jaligi, Suv resurslarini boshqarish, Ekologiya, Agrotech</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">💡</div>
+                    <h3>Yechim</h3>
+                    <p>AgroML - bu sun'iy intellekt va machine learning asosida ishlaydigan aqlli suv boshqaruv tizimi.</p>
+                    <ul>
+                        <li><strong>Computer Vision:</strong> O'simlik holatini real vaqtda tahlil qilish va suv ehtiyojini aniqlash</li>
+                        <li><strong>IoT Integratsiya:</strong> Davlat IoT sensorlari va hisoblagichlardan ma'lumotlarni yig'ish</li>
+                        <li><strong>ML Bashorat:</strong> Optimal sug'orish vaqti va miqdorini aniq bashorat qilish</li>
+                        <li><strong>Avtomatlashtirish:</strong> Sug'orish tizimini avtomatik boshqarish va optimallashtirish</li>
+                        <li><strong>Data Analytics:</strong> Fermerlar uchun tushunarli dashboard va tavsiyalar</li>
+                    </ul>
+                    <p style="margin-top: 1.5rem;"><strong>Kutilayotgan ta'sir:</strong> Suv iste'molini 40% ga kamaytirish, hosildorlikni 25% ga oshirish, fermerlar uchun ma'lumotga asoslangan qarorlar qabul qilish imkoniyati</p>
+                </div>
+            </div>
+
+            <!-- Impact Stats -->
+            <div class="stats-grid" style="margin-top: 4rem;">
+                <div class="stat-card fade-in">
+                    <div class="stat-number">40%</div>
+                    <div class="stat-label">Suv Tejash</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">25%</div>
+                    <div class="stat-label">Hosildorlik O'sishi</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">100K+</div>
+                    <div class="stat-label">Fermer Xo'jaliklari</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Monitoring</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team">
+        <div class="container">
+            <h2 class="section-title">Bizning Jamoa</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem; font-size: 1.1rem;">
+                Bizning jamoamiz - bu data science, machine learning va cloud computing sohasida tajribali mutaxassislar. Har birimiz O'zbekiston qishloq xo'jaligini raqamlashtirish va suv resurslarini samarali boshqarish orqali mamlakatimiz iqtisodiyotiga hissa qo'shishni maqsad qilganmiz.
+            </p>
+            <div class="team-grid">
+                <div class="team-member fade-in">
+                    <div class="team-avatar">TI</div>
+                    <h3>To'lqinov Iskandar</h3>
+                    <div class="team-role">Team Lead & ML Engineer</div>
+                    <div class="team-skills">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">ML Models</span>
+                        <span class="skill-tag">Cloud Computing</span>
+                    </div>
+                </div>
+
+                <div class="team-member fade-in">
+                    <div class="team-avatar">MS</div>
+                    <h3>Mirzajon Shokirjonov</h3>
+                    <div class="team-role">Data Engineer & ML Specialist</div>
+                    <div class="team-skills">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">ML Models</span>
+                        <span class="skill-tag">Cloud Computing</span>
+                    </div>
+                </div>
+
+                <div class="team-member fade-in">
+                    <div class="team-avatar">QI</div>
+                    <h3>Qahramon Isokov</h3>
+                    <div class="team-role">Data Analyst & ML Engineer</div>
+                    <div class="team-skills">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">ML Models</span>
+                        <span class="skill-tag">Cloud Computing</span>
+                    </div>
+                </div>
+
+                <div class="team-member fade-in">
+                    <div class="team-avatar">FJ</div>
+                    <h3>Furqat Jalolov</h3>
+                    <div class="team-role">Data Engineer & ML Specialist</div>
+                    <div class="team-skills">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">ML Models</span>
+                        <span class="skill-tag">Cloud Computing</span>
+                    </div>
+                </div>
+
+                <div class="team-member fade-in">
+                    <div class="team-avatar">KS</div>
+                    <h3>Karamatov Sherzodbek</h3>
+                    <div class="team-role">Data Analyst & ML Engineer</div>
+                    <div class="team-skills">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">ML Models</span>
+                        <span class="skill-tag">Cloud Computing</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 2rem; border-radius: 15px; margin-top: 3rem; box-shadow: var(--shadow);">
+                <p style="text-align: center; font-size: 0.95rem; color: #718096;">
+                    ⚠️ <strong>Muhim:</strong> Barcha jamoa a'zolari AI500 Telegram boti orqali ro'yxatdan o'tgan. Jamoa a'zolari o'rtasida yaxshi koordinatsiya va ish taqsimoti mavjud.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Us Section -->
+    <section id="why-us">
+        <div class="container">
+            <h2 class="section-title">Nega Aynan Bizning Jamoa Bu Muammoni Hal Qila Oladi</h2>
+            <div class="why-us-grid">
+                <div class="why-card fade-in">
+                    <div class="why-icon">🎓</div>
+                    <h3>Texnik Ekspertiza</h3>
+                    <p>Jamoamizning har bir a'zosi data science, machine learning va cloud computing bo'yicha kuchli nazariy va amaliy bilimga ega. Python, TensorFlow, PyTorch, AWS/GCP kabi zamonaviy texnologiyalarni mukammal bilamiz.</p>
+                </div>
+
+                <div class="why-card fade-in">
+                    <div class="why-icon">🌾</div>
+                    <h3>Mahalliy Bilim</h3>
+                    <p>Biz O'zbekistonning qishloq xo'jaligi va suv muammolarini yaqindan bilamiz. Mahalliy sharoitlar, fermerlar ehtiyojlari va davlat infratuzilmasi bilan tanishmiz. Bu bizga amaliy va samarali yechim yaratishga yordam beradi.</p>
+                </div>
+
+                <div class="why-card fade-in">
+                    <div class="why-icon">🚀</div>
+                    <h3>Innovatsion Yondashuv</h3>
+                    <p>Bizning yechimimiz faqat nazariy emas - biz mavjud davlat IoT sensorlari va ma'lumotlar bazasini to'g'ridan-to'g'ri ishlatamiz. Bu tizimni tezda joriy etish va real natijalar olish imkonini beradi.</p>
+                </div>
+            </div>
+
+            <div class="why-us-grid" style="margin-top: 3rem;">
+                <div class="why-card fade-in">
+                    <div class="why-icon">🤝</div>
+                    <h3>Jamoaviy Kuch</h3>
+                    <p>5 kuchli mutaxassisdan iborat jamoamiz - bu katta loyihalarni amalga oshirish uchun ideal tarkib. Har birimiz o'z sohasida tajribali va bir-birimiz bilan mukammal ishlashni bilamiz.</p>
+                </div>
+
+                <div class="why-card fade-in">
+                    <div class="why-icon">💪</div>
+                    <h3>Kuchli Motivatsiya</h3>
+                    <p>Biz shunchaki texnologiya yaratish emas, balki mamlakatimizning eng dolzarb muammolaridan birini hal qilishni maqsad qilganmiz. O'zbekiston qishloq xo'jaligini modernizatsiya qilish - bu bizning missiyamiz.</p>
+                </div>
+
+                <div class="why-card fade-in">
+                    <div class="why-icon">📊</div>
+                    <h3>Data-Driven Yondashuv</h3>
+                    <p>Biz ma'lumotlar tahlili va ML modellariga asoslanib qaror qabul qilamiz. Har bir xususiyat va algoritm real ma'lumotlar va ilmiy tadqiqotlarga asoslangan bo'ladi.</p>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 3rem; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);">
+                <h3 style="text-align: center; margin-bottom: 1rem;">🏆 Bizning Raqobat Ustunligimiz</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                    <div>
+                        <strong>✓ Davlat infratuzilmasidan foydalanish:</strong>
+                        <p style="margin-top: 0.5rem;">Mavjud IoT sensorlar va hisoblagichlarni to'g'ridan-to'g'ri integratsiya qilamiz - bu tizimni juda arzon va tez joriy etish imkonini beradi.</p>
+                    </div>
+                    <div>
+                        <strong>✓ Multi-crop yondashuv:</strong>
+                        <p style="margin-top: 0.5rem;">G'alla, paxta, sabzavot va mevalar uchun universal yechim - bu bozorda keng qamrovni ta'minlaydi.</p>
+                    </div>
+                    <div>
+                        <strong>✓ Scalable arxitektura:</strong>
+                        <p style="margin-top: 0.5rem;">Cloud-native dizayn 100,000+ fermer xo'jaliklarini qo'llab-quvvatlash imkonini beradi.</p>
+                    </div>
+                    <div>
+                        <strong>✓ AI-powered optimizatsiya:</strong>
+                        <p style="margin-top: 0.5rem;">Zamonaviy ML modellari doimiy o'rganib, vaqt o'tishi bilan yanada aniq bashoratlar beradi.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap">
+        <div class="container">
+            <h2 class="section-title">Yo'l Xaritasi va Bosqichlar</h2>
+            
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <span class="stage-badge">📍 Hozirgi Bosqich: G'oya</span>
+            </div>
+
+            <div class="roadmap-container">
+                <div class="roadmap-item fade-in">
+                    <div class="roadmap-number">1</div>
+                    <h3 style="margin-bottom: 1rem;">G'oya va Tadqiqot (Hozir)</h3>
+                    <p><strong>Davomiyligi:</strong> 2 oy (Noyabr - Dekabr 2024)</p>
+                    <ul style="margin-top: 1rem; list-style: none;">
+                        <li>✓ Muammo tahlili va bozor tadqiqoti</li>
+                        <li>✓ Texnik arxitektura dizayni</li>
+                        <li>✓ Davlat IoT infrastrukturasi bilan tanishish</li>
+                        <li>✓ Ma'lumotlar to'plash strategiyasi</li>
+                        <li>✓ Fermerlar bilan suhbatlar va ehtiyojlarni aniqlash</li>
+                        <li>✓ MVP xususiyatlarini belgilash</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-item fade-in">
+                    <div class="roadmap-number">2</div>
+                    <h3 style="margin-bottom: 1rem;">Prototip Yaratish</h3>
+                    <p><strong>Davomiyligi:</strong> 3 oy (Yanvar - Mart 2025)</p>
+                    <ul style="margin-top: 1rem; list-style: none;">
+                        <li>→ ML modellarini ishlab chiqish va trenirovka qilish</li>
+                        <li>→ Computer Vision tizimini yaratish</li>
+                        <li>→ IoT sensorlar bilan integratsiya</li>
+                        <li>→ Backend API va ma'lumotlar bazasi</li>
+                        <li>→ Oddiy frontend dashboard</li>
+                        <li>→ Dastlabki testing 5-10 fermer xo'jaligida</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-item fade-in">
+                    <div class="roadmap-number">3</div>
+                    <h3 style="margin-bottom: 1rem;">MVP (Minimum Viable Product)</h3>
+                    <p><strong>Davomiyligi:</strong> 4 oy (Aprel - Iyul 2025)</p>
+                    <ul style="margin-top: 1rem; list-style: none;">
+                        <li>→ To'liq funksional web va mobile ilovalar</li>
+                        <li>→ Avtomatik sug'orish boshqaruvi</li>
+                        <li>→ Real-time monitoring va alertlar</li>
+                        <li>→ 50-100 fermer xo'jaligida pilot dastur</li>
+                        <li>→ Feedback to'plash va takomillashtirish</li>
+                        <li>→ Davlat organlari bilan hamkorlik</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-item fade-in">
+                    <div class="roadmap-number">4</div>
+                    <h3 style="margin-bottom: 1rem;">Ishga Tushirish va Kengaytirish</h3>
+                    <p><strong>Davomiyligi:</strong> 6+ oy (Avgust 2025+)</p>
+                    <ul style="margin-top: 1rem; list-style: none;">
+                        <li>→ O'zbekiston bo'ylab kengayish</li>
+                        <li>→ 1000+ fermer xo'jaliklarini qamrab olish</li>
+                        <li>→ Qo'shimcha xususiyatlar: hosil bashorati, kasalliklar aniqlash</li>
+                        <li>→ Marketpleys va kreditlesh xizmatlari</li>
+                        <li>→ Mintaqaviy kengayish (Markaziy Osiyo)</li>
+                        <li>→ Investitsiya jalb qilish va biznes modeli</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 3rem; background: linear-gradient(135deg, rgba(67, 233, 123, 0.1) 0%, rgba(56, 249, 215, 0.1) 100%);">
+                <h3 style="text-align: center; margin-bottom: 1.5rem;">📈 Asosiy Milestone'lar</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">Q1 2025</div>
+                        <p>Prototip tayyor</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">Q2 2025</div>
+                        <p>MVP ishga tushirildi</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">Q3 2025</div>
+                        <p>100+ foydalanuvchi</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">Q4 2025</div>
+                        <p>1000+ foydalanuvchi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Implementation Section -->
+    <section id="technical">
+        <div class="container">
+            <h2 class="section-title">Texnik Yechim va Arxitektura</h2>
+            
+            <div class="tech-grid">
+                <div class="tech-category fade-in">
+                    <h3>🔧 Texnologiyalar Stack</h3>
+                    <ul class="tech-list">
+                        <li>
+                            <span class="tech-icon">🐍</span>
+                            <div>
+                                <strong>Backend:</strong> Python (FastAPI/Django)
+                                <p style="font-size: 0.9rem; color: #718096;">Asosiy backend tili - tez, ishonchli va ML bilan yaxshi integratsiya</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="tech-icon">🧠</span>
+                            <div>
+                                <strong>Machine Learning:</strong> TensorFlow, PyTorch, Scikit-learn
+                                <p style="font-size: 0.9rem; color: #718096;">ML modellarni trenirovka qilish va deploy qilish</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="tech-icon">👁️</span>
+                            <div>
+                                <strong>Computer Vision:</strong> OpenCV, YOLO, ResNet
+                                <p style="font-size: 0.9rem; color: #718096;">O'simlik holatini tahlil qilish va kasalliklarni aniqlash</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="tech-icon">☁️</span>
+                            <div>
+                                <strong>Cloud Platform:</strong> AWS / Google Cloud Platform
+                                <p style="font-size: 0.9rem; color: #718096;">Scalable infrastructure va ML servislari</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="tech-icon">📊</span>
+                            <div>
+                                <strong>Database:</strong> PostgreSQL + TimescaleDB
+                                <p style="font-size: 0.9rem; color: #718096;">Time-series ma'lumotlar va relational data</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tech-category fade-in">
+                    <h3>🌐 IoT va Integratsiya</h3>
+                    <ul class="tech-list">
+                        <li>
+                            <span class="tech-icon">📡</span>
+                            <div>
+                                <strong>IoT Protocol:</strong> MQTT, HTTP/REST
+                                <p style="font-size: 0.9rem; color: #718096;">Davlat sensorlari bilan real-time aloqa</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="tech-icon">💧</span>
+                            <div>
+                                <strong>Sensorlar:</strong> Tuproq namligi, harorat, namlik
+                                <p style="font-size: 0.9rem; color: #718096;">Davlat o'rnatgan IoT qurilmalardan ma'lumot</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="tech-icon">📸</span>
+                            <div>
+                                <strong>Kameralar:</strong> Drone va statik kameralar
+                                <p style="font-size: 0.9rem; color: #718096;">O'simlik holatini vizual monitoring</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="tech-icon">🔄</span>
+                            <div>
+                                <strong>Data Pipeline:</strong> Apache Kafka, Apache Airflow
+                                <p style="font-size: 0.9rem; color: #718096;">Ma'lumotlarni qayta ishlash va orchestration</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="architecture-diagram fade-in">
+                <h3 style="text-align: center; margin-bottom: 2rem;">🏗️ Tizim Arxitekturasi</h3>
+                
+                <div class="diagram-layer layer-1">
+                    <strong>LAYER 1: Ma'lumot To'plash</strong>
+                    <p style="margin-top: 0.5rem; font-weight: normal;">IoT Sensorlar → Kameralar → Ob-havo Stansiyalari → Hisoblagichlar</p>
+                </div>
+                
+                <div style="text-align: center; font-size: 2rem;">↓</div>
+                
+                <div class="diagram-layer layer-2">
+                    <strong>LAYER 2: Ma'lumot Qayta Ishlash</strong>
+                    <p style="margin-top: 0.5rem; font-weight: normal;">Data Pipeline → ETL Process → Real-time Stream Processing</p>
+                </div>
+                
+                <div style="text-align: center; font-size: 2rem;">↓</div>
+                
+                <div class="diagram-layer layer-3">
+                    <strong>LAYER 3: AI/ML Tahlil</strong>
+                    <p style="margin-top: 0.5rem; font-weight: normal;">Computer Vision Models → Predictive ML → Optimization Algorithms</p>
+                </div>
+                
+                <div style="text-align: center; font-size: 2rem;">↓</div>
+                
+                <div class="diagram-layer layer-4">
+                    <strong>LAYER 4: Foydalanuvchi Interfeysi</strong>
+                    <p style="margin-top: 0.5rem; font-weight: normal;">Web Dashboard → Mobile App → Avtomatik Sug'orish Boshqaruvi</p>
+                </div>
+            </div>
+
+            <div class="tech-grid" style="margin-top: 3rem;">
+                <div class="card fade-in">
+                    <h3>🤖 AI va ML Yondashuvlar</h3>
+                    <ul style="list-style: none; margin-top: 1rem;">
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e2e8f0;">
+                            <strong>1. Computer Vision for Plant Analysis</strong>
+                            <p style="margin-top: 0.3rem; font-size: 0.95rem; color: #718096;">
+                                Convolutional Neural Networks (CNN) yordamida o'simlik barglarini tahlil qilib, suvga ehtiyoj darajasini aniqlash. YOLO/ResNet arxitekturasi asosida real-time detection.
+                            </p>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e2e8f0;">
+                            <strong>2. Time Series Forecasting</strong>
+                            <p style="margin-top: 0.3rem; font-size: 0.95rem; color: #718096;">
+                                LSTM va Prophet modellari yordamida o'simlik suv ehtiyojini bashorat qilish. Ob-havo, tuproq va o'simlik ma'lumotlarini birlashtirib, 7-14 kunlik prognoz.
+                            </p>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e2e8f0;">
+                            <strong>3. Optimization Algorithms</strong>
+                            <p style="margin-top: 0.3rem; font-size: 0.95rem; color: #718096;">
+                                Genetic Algorithms va Reinforcement Learning orqali sug'orish jadvalini optimallashtirish. Minimal suv bilan maksimal hosildorlik.
+                            </p>
+                        </li>
+                        <li style="padding: 0.8rem 0;">
+                            <strong>4. Anomaly Detection</strong>
+                            <p style="margin-top: 0.3rem; font-size: 0.95rem; color: #718096;">
+                                Isolation Forest va Autoencoders yordamida sensor nosozliklarini va o'simlik kasalliklarini erta aniqlash.
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card fade-in">
+                    <h3>📋 Asosiy Qadamlar</h3>
+                    <ul style="list-style: none; margin-top: 1rem;">
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e2e8f0;">
+                            <strong>Qadm 1: Ma'lumot Yig'ish</strong>
+                            <p style="margin-top: 0.3rem; font-size: 0.95rem; color: #718096;">
+                                Davlat IoT sensorlari va hisoblagichlardan real-time ma'lumotlarni API orqali yig'ish. Tuproq namligi, harorat, namlik, suv iste'moli.
+                            </p>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e2e8f0;">
+                            <strong>Qadm 2: Ma'lumot Tozalash</strong>
+                            <p style="margin-top: 0.3rem; font-size: 0.95rem; color: #718096;">
+                                Noise filtration, missing data imputation, outlier detection. Sifatli ma'lumotlar - sifatli modellar kaliti.
+                            </p>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e2e8f0;">
+                            <strong>Qadm 3: Model Trenirovka</strong>
+                            <p style="margin-top: 0.3rem; font-size: 0.95rem; color: #718096;">
+                                Tarixiy ma'lumotlar asosida ML modellarni o'qitish. Cross-validation va hyperparameter tuning orqali optimal model tanlash.
+                            </p>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e2e8f0;">
+                            <strong>Qadm 4: Deploy va Monitoring</strong>
+                            <p style="margin-top: 0.3rem; font-size: 0.95rem; color: #718096;">
+                                Cloud platformaga deploy qilish. Real-time inference va model performance monitoring. A/B testing.
+                            </p>
+                        </li>
+                        <li style="padding: 0.8rem 0;">
+                            <strong>Qadm 5: Continuous Improvement</strong>
+                            <p style="margin-top: 0.3rem; font-size: 0.95rem; color: #718096;">
+                                Yangi ma'lumotlar bilan modelni qayta o'qitish. Feedback loop va doimiy takomillashtirish.
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 3rem; background: linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, rgba(0, 242, 254, 0.1) 100%);">
+                <h3 style="text-align: center; margin-bottom: 1.5rem;">🎯 Texnik Innovatsiyalar</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                    <div>
+                        <h4 style="color: #4facfe; margin-bottom: 0.5rem;">🌱 Multi-Crop Support</h4>
+                        <p>G'alla, paxta, sabzavot va mevalar uchun alohida ML modellari. Har bir o'simlik turi uchun maxsus suv ehtiyoji algoritmi.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #4facfe; margin-bottom: 0.5rem;">📱 Edge Computing</h4>
+                        <p>Dala sharoitida past internet tezligi uchun edge devices'da ML inference. Offline rejimda ham ishlash.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #4facfe; margin-bottom: 0.5rem;">🔐 Data Security</h4>
+                        <p>End-to-end enkriptsiya, secure API, GDPR compliance. Fermerlar ma'lumotlari xavfsizligi birinchi o'rinda.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #4facfe; margin-bottom: 0.5rem;">⚡ Real-Time Processing</h4>
+                        <p>Apache Kafka va stream processing orqali millisecond latency. Tezkor reaktsiya va avtomatik sug'orish.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">🌱 AgroML</div>
+            <p style="margin: 1rem 0;">Sun'iy Intellekt bilan Qishloq Xo'jaligini Modernizatsiya Qilamiz</p>
+            <p style="font-size: 0.9rem; opacity: 0.9;">AI500 Hackathon 2024 - 1-Bosqich Demo</p>
+            <p style="font-size: 0.85rem; margin-top: 1rem; opacity: 0.8;">© 2024 AgroML Team. Barcha huquqlar himoyalangan.</p>
+            <div style="margin-top: 1.5rem; font-size: 0.9rem;">
+                <p><strong>Jamoa:</strong> To'lqinov Iskandar | Mirzajon Shokirjonov | Qahramon Isokov | Furqat Jalolov | Karamatov Sherzodbek</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Active nav link
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
